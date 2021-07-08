@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.nelioalves.cursomc.domain.Categoria;
 import com.nelioalves.cursomc.repositories.CategoriaRepository;
+import com.nelioalves.cursomc.services.exceptions.ObjectNotFoundException;
 
 //Uma classe service fica responsavel por chamar um repsoitory para acessar os dados;
 @Service
@@ -18,6 +19,8 @@ public class CategoriaService {
 	
 	public Categoria buscar(Integer id) {
 		Optional<Categoria> obj = repo.findById(id);
-		return obj.orElse(null);
+		
+			return obj.orElseThrow(() -> new ObjectNotFoundException(
+					"Objeto não encontrado! ID: " + id + ", Tpo: " + Categoria.class.getName()));
 	}
 }
